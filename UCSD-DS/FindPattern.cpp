@@ -23,36 +23,43 @@ void print_occurrences(const std::vector<ull>& output) {
     std::cout << "\n";
 }
 
+ull pow_mod(ull base, ull exponent, ull modulus) {
+    ull result = 1;
+    base %= modulus;
+    while (exponent > 0) {
+        if (exponent % 2 == 1)
+            result = (result * base) % modulus;
+        base = (base * base) % modulus;
+        exponent /= 2;
+    }
+    return result;
+}
+
 std::vector<ull> get_occurrences(const Data& input) {
     const string& s = input.pattern, t = input.text;
-    //std::vector<int> ans;
-    //for (size_t i = 0; i + s.size() <= t.size(); ++i)
-    //    if (t.substr(i, s.size()) == s)
-    //        ans.push_back(i);
 
     std::vector<ull> ans;
     ull pattern_hash = 0;
-    ull randomval = 4;
+    ull randomval = 2;
     for (ull i = 0; i < s.length(); i++) {
-        pattern_hash += ((s[s.length() - 1 - i] % MOD_P) * (static_cast<ull>(std::pow(randomval, i)) % MOD_P)) % MOD_P;
+        pattern_hash += ((s[s.length() - 1 - i] % MOD_P) * pow_mod(randomval, i, MOD_P)) % MOD_P;
     }
 
     ull substr_hash = 0;
     for (ull i = 0; i < t.length(); i++) {
-        std::cout << i << " " << pattern_hash << " " << substr_hash << "\n";
         if (i != 0 && i >= s.length()) {
             if (substr_hash == pattern_hash) {
                 if (t.substr(i - s.length(), s.length()) == s) {
                     ans.push_back(i - s.length());
                 }
             }
-            substr_hash -= ((t[i-s.length()] % MOD_P) * (static_cast<ull>(std::pow(randomval, (s.length() - 1))) % MOD_P)) % MOD_P;
+            substr_hash -= ((t[i - s.length()] % MOD_P) * pow_mod(randomval, s.length() - 1, MOD_P)) % MOD_P;
             substr_hash *= randomval;
             substr_hash %= MOD_P;
             substr_hash += static_cast<ull>(t[i]) % static_cast<ull>(MOD_P);
             continue;
         }
-        substr_hash += ((t[i] % MOD_P) * (static_cast<ull>(std::pow(randomval, (s.length() - static_cast<ull>(i % s.length()) - 1))) % MOD_P)) % MOD_P;
+        substr_hash += ((t[i] % MOD_P) * pow_mod(randomval, (s.length() - static_cast<ull>(i % s.length()) - 1), MOD_P)) % MOD_P;
     }
 
     if (substr_hash == pattern_hash) {
