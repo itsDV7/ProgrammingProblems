@@ -5,7 +5,7 @@
 
 using std::string;
 typedef unsigned long long ull;
-constexpr auto MOD_P = 18446744073709551589;
+constexpr auto MOD_P = 18446744073709551557;
 
 struct Data {
     string pattern, text;
@@ -40,7 +40,7 @@ std::vector<ull> get_occurrences(const Data& input) {
 
     std::vector<ull> ans;
     ull pattern_hash = 0;
-    ull randomval = 2;
+    ull randomval = 1;
     for (ull i = 0; i < s.length(); i++) {
         pattern_hash += ((s[s.length() - 1 - i] % MOD_P) * pow_mod(randomval, i, MOD_P)) % MOD_P;
     }
