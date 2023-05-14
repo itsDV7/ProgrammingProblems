@@ -1,10 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 using std::string;
 using std::vector;
 using std::cin;
+using std::unordered_map;
 
 struct Query {
     string type, name;
@@ -31,54 +33,35 @@ void write_responses(const vector<string>& result) {
 }
 
 vector<string> process_queries(const vector<Query>& queries) {
-    //vector<string> result;
-    //// Keep list of all existing (i.e. not deleted yet) contacts.
-    //vector<Query> contacts;
-    //for (size_t i = 0; i < queries.size(); ++i)
-    //    if (queries[i].type == "add") {
-    //        bool was_founded = false;
-    //        // if we already have contact with such number,
-    //        // we should rewrite contact's name
-    //        for (size_t j = 0; j < contacts.size(); ++j)
-    //            if (contacts[j].number == queries[i].number) {
-    //                contacts[j].name = queries[i].name;
-    //                was_founded = true;
-    //                break;
-    //            }
-    //        // otherwise, just add it
-    //        if (!was_founded)
-    //            contacts.push_back(queries[i]);
-    //    }
-    //    else if (queries[i].type == "del") {
-    //        for (size_t j = 0; j < contacts.size(); ++j)
-    //            if (contacts[j].number == queries[i].number) {
-    //                contacts.erase(contacts.begin() + j);
-    //                break;
-    //            }
-    //    }
-    //    else {
-    //        string response = "not found";
-    //        for (size_t j = 0; j < contacts.size(); ++j)
-    //            if (contacts[j].number == queries[i].number) {
-    //                response = contacts[j].name;
-    //                break;
-    //            }
-    //        result.push_back(response);
-    //    }
-    //return result;
 
     vector<string> result;
-    vector<string> contacts(1e8, "not found");
+    //vector<string> contacts;
+	//contacts.reserve(1e8);
+	unordered_map<int, string> contacts;
 
     for (int i = 0; i < queries.size(); i++) {
         if (queries[i].type == "add") {
             contacts[queries[i].number] = queries[i].name;
         }
         else if (queries[i].type == "del") {
-            contacts[queries[i].number] = "not found";
+            //contacts[queries[i].number] = "not found";
+			if (contacts.find(queries[i].number) != contacts.end()){
+				contacts.erase(contacts.find(queries[i].number));
+			}
         }
         else if (queries[i].type == "find") {
-            result.push_back(contacts[queries[i].number]);
+			//if (contacts[queries[i].number] == ""){
+			//	result.push_back("not found");
+			//}
+			//else{
+			//	result.push_back(contacts[queries[i].number]);
+			//}
+			if (contacts.find(queries[i].number) != contacts.end()){
+				result.push_back(contacts[queries[i].number]);
+			}
+			else{
+				result.push_back("not found");
+			}
         }
     }
 
