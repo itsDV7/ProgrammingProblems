@@ -103,3 +103,29 @@ class MaxHeap:
 #     O(n)
     def _print(self):
         print(self.heap)
+
+
+# Input:      
+# arr = [42, 7, 11, 14, 18, 13, 18, 12, 19, 30]
+
+# maxheap = MaxHeap()
+# maxheap.heapify(arr)
+# maxheap.changepriority(30, 25)
+# maxheap.changepriority(7, 6)
+# maxheap.changepriority(42, 45)
+# maxheap.changepriority(12, 50)
+# maxheap.remove(18)
+# while maxheap.getmax():
+#     print(maxheap.extractmax())
+
+
+# Output:
+# 50
+# 45
+# 25
+# 19
+# 18
+# 14
+# 13
+# 11
+# 6
