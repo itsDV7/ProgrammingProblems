@@ -17,6 +17,24 @@ class BST:
         
         return node
     
+    def delete(self, node, key):
+        print(self.search(node, key))
+        if self.search(node, key):
+            print("YES")
+        else:
+            print("NO")
+    
+    def search(self, node, key):
+        if node is None:
+            return False
+        
+        if key == node.key:
+            return True
+        elif key < node.key:
+            self.search(node.left, key)
+        elif key > node.key:
+            self.search(node.right, key)
+    
     def inorder(self, root):
         if root is not None:
             self.inorder(root.left)
