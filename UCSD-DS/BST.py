@@ -91,3 +91,43 @@ class BST:
             self.inorder(root.left)
             print(str(root.key), end=" -> ")
             self.inorder(root.right)
+
+# bst = BST()
+# root = bst.insert(None, 8)
+# bst.insert(root, 3)
+# bst.insert(root, 1)
+# bst.insert(root, 6)
+# bst.insert(root, 7)
+# bst.insert(root, 10)
+# bst.insert(root, 14)
+# bst.insert(root, 4)
+# bst.inorder(root)
+
+# 1 -> 3 -> 4 -> 6 -> 7 -> 8 -> 10 -> 14 -> 
+
+# bst.delete(root, 6)
+# bst.delete(root, 13)
+# bst.inorder(root)
+
+# 1 -> 3 -> 4 -> 7 -> 8 -> 10 -> 14 -> 
+
+# bst.adjnodes(root, 8)
+
+# Left:  3
+# Right:  10
+    
+# bst.adjnodes(root, 1)
+
+# Leaf Node
+
+# bst.adjnodes(root, 6)
+
+# Key not found.
+
+# bst.rangesearch(root, 10, 4)
+
+# {3, 4, 7, 8, 10}
+
+# bst.rangesearch(root, 10, 6)
+
+# Key not found.
