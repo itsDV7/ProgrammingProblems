@@ -1,38 +1,39 @@
-class AVL:
-    
-    class Node:
+class Node:
         def __init__(self, key):
             self.key = key
             self.left = None
             self.right = None
             self.height = 1
+
+class AVL:
             
     def insert(self, node, key):
         if node is None:
-            return self.Node(key)
-        
-        if key < node.key:
+            return Node(key)
+        elif key < node.key:
             node.left = self.insert(node.left, key)
         elif key > node.key:
             node.right = self.insert(node.right, key)
-            
-        left_height = self.getheight(node.left)
-        right_height = self.getheight(node.right)
+        else:
+            return node 
         
-        node.height = 1 + max(left_height, right_height)
+        node.height = 1 + max(self.getheight(node.left), self.getheight(node.right))
         
         balance = self.getbalance(node)
         
         # LL Rotation
         if balance > 1 and key < node.left.key:
             return self.rightrotate(node)
+        
+        # RR Rotation
+        if balance < -1 and key > node.right.key:
+            return self.leftrotate(node)
+        
         # LR Rotation
         if balance > 1 and key > node.left.key:
             node.left = self.leftrotate(node.left)
             return self.rightrotate(node)
-        # RR Rotation
-        if balance < -1 and key > node.right.key:
-            return self.leftrotate(node)
+        
         # RL Rotation
         if balance < -1 and key < node.right.key:
             node.right = self.rightrotate(node.right)
@@ -60,18 +61,20 @@ class AVL:
         NL.right = N
         
         NL.height = 1 + max(self.getheight(NL.left), self.getheight(NL.right))
-        N.height = 1 + max(self.getheight(NL.left), self.getheight(NL.right))
+        N.height = 1 + max(self.getheight(N.left), self.getheight(N.right))
         
         return NL
     
     def getheight(self, node):
         if node is None:
             return 0
+        
         return node.height
     
     def getbalance(self, node):
         if node is None:
             return 0
+        
         return self.getheight(node.left) - self.getheight(node.right)
     
     def inorder(self, root):
@@ -79,3 +82,14 @@ class AVL:
             self.inorder(root.left)
             print(str(root.key), end=" -> ")
             self.inorder(root.right)
+            
+avl = AVL()
+root = avl.insert(None, 10)
+root = avl.insert(root, 20)
+root = avl.insert(root, 30)
+root = avl.insert(root, 40)
+root = avl.insert(root, 50)
+root = avl.insert(root, 25)
+avl.inorder(root)
+
+10 -> 20 -> 25 -> 30 -> 40 -> 50 -> 
