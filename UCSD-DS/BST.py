@@ -18,27 +18,38 @@ class BST:
         return node
     
     def delete(self, node, key):
-        if self.search(node, key):
-            if node is None:
-                return node
-
-            if key == node.left.key:
-                node.left.left.right = node.left.right
-                node.left = node.left.left
-            elif key == node.right.key:
-                node.right.right.left = node.right.left
-                node.right = node.right.right
-            elif key < node.key:
-                self.delete(node.left, key)
-            elif key > node.key:
-                self.delete(node.right, key)
-
+        if node is None:
             return node
         
+        if key < node.key:
+            node.left = self.delete(node.left, key)
+        elif key > node.key:
+            node.right = self.delete(node.right, key)
+        elif key == node.key:
+            if node.right is None and node.left is None:
+                node = None
+            elif node.right is not None and node.left is not None:
+                temp = self._inordersuccessor(node)
+                self.delete(node, temp.key)
+                node.key = temp.key
+                
+            elif node.right is not None:
+                node = node.right
+            elif node.left is not None:
+                node = node.left
+
+        return node
+    
+    def _inordersuccessor(self, node):
+        node = node.right
+        while node.left is not None:
+            node = node.left
+        return node
+    
     def adjnodes(self, node, key):
         if node is None:
             print("Key not found.")
-            return
+            return node
         
         if key == node.key:
             if node.left or node.right:
@@ -66,7 +77,7 @@ class BST:
     
     def _rsearch(self, node, key, keyset):
         if node is None:
-            return
+            return node
         
         if key == node.key:
             keyset.add(node.key)
@@ -85,6 +96,8 @@ class BST:
             keyset = self._rsearch(node, key1, keyset)
             keyset = self._rsearch(node, key2, keyset)
             return keyset
+        else:
+            print("Key not found.")
     
     def inorder(self, root):
         if root is not None:
