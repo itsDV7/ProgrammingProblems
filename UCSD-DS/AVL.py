@@ -72,20 +72,20 @@ class AVL:
         balance = self.getbalance(node)
         
         # LL Rotation
-        if balance > 1 and key < node.left.key:
+        if balance > 1 and self.getbalance(node.left) >= 0:
             return self.rightrotate(node)
         
         # RR Rotation
-        if balance < -1 and key > node.right.key:
+        if balance < -1 and self.getbalance(node.right) <= 0:
             return self.leftrotate(node)
         
         # LR Rotation
-        if balance > 1 and key > node.left.key:
+        if balance > 1 and self.getbalance(node.left) < 0:
             node.left = self.leftrotate(node.left)
             return self.rightrotate(node)
         
         # RL Rotation
-        if balance < -1 and key < node.right.key:
+        if balance < -1 and self.getbalance(node.right) > 0:
             node.right = self.rightrotate(node.right)
             return self.leftrotate(node)
             
@@ -151,19 +151,33 @@ class AVL:
     def inorder(self, root):
         if root is not None:
             self.inorder(root.left)
-#             print(f"{root.left.key if root.left is not None else None} {root.key} {root.right.key if root.right is not None else None}\n")
             print(str(root.key), end=" -> ")
-#             print("{0} ".format(root.key), end="")
-#             self.inorder(root.left)
             self.inorder(root.right)
             
-avl = AVL()
-root = avl.insert(None, 10)
-root = avl.insert(root, 20)
-root = avl.insert(root, 30)
-root = avl.insert(root, 40)
-root = avl.insert(root, 50)
-root = avl.insert(root, 25)
-avl.inorder(root)
+# avl = AVL()
+# root = avl.insert(None, 10)
+# root = avl.insert(root, 20)
+# root = avl.insert(root, 30)
+# root = avl.insert(root, 40)
+# root = avl.insert(root, 50)
+# root = avl.insert(root, 25)
+# root = avl.insert(root, 15)
+# root = avl.insert(root, 5)
+# avl.inorder(root)
 
-10 -> 20 -> 25 -> 30 -> 40 -> 50 -> 
+# 5 -> 10 -> 15 -> 20 -> 25 -> 30 -> 40 -> 50 -> 
+
+# root = avl.delete(root, 10)
+# avl.inorder(root)
+
+# 5 -> 15 -> 20 -> 25 -> 30 -> 40 -> 50 -> 
+
+# root = avl.delete(root, 20)
+# avl.inorder(root)
+
+# 5 -> 25 -> 20 -> 30 -> 40 -> 50 -> 
+
+# root = avl.delete(root, 40)
+# avl.inorder(root)
+
+# 5 -> 25 -> 20 -> 30 -> 50 -> 
