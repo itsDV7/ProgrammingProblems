@@ -49,3 +49,34 @@ class Solution:
             nodearr[len(nodearr)//2].next = None
 
         return head
+
+# Slow Fast pointer approach O(n) time O(1) space
+#         slow = head
+#         fast = head.next
+
+#         while fast is not None and fast.next is not None:
+#             slow = slow.next
+#             fast = fast.next.next
+
+#         prev = None
+#         nxt = slow.next
+#         slow.next = None
+
+#         while nxt is not None:
+#             temp = nxt.next
+#             nxt.next = prev
+#             prev = nxt
+#             nxt = temp
+
+#         while prev is not None:
+#             headnext = head.next
+#             prevnext = prev.next
+#             head.next = prev
+#             prev.next = headnext
+#             head = headnext
+#             prev = prevnext
+
+#         if head is not None:
+#             prevnext = head
+
+#         return head
