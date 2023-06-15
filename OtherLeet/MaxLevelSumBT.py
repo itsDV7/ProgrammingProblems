@@ -4,11 +4,32 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+from collections import deque
 class Solution:
-    def maxLevelSum(self, root: TreeNode) -> int:
-        ans, q, depth = (-math.inf, 0), [root], -1
-        while q:
-            ans = max(ans, (sum(node.val for node in q), depth))
-            q = [kid for node in q for kid in (node.left, node.right) if kid]
-            depth -= 1
-        return -ans[1]
+    def maxLevelSum(self, root: Optional[TreeNode]) -> int:
+        if root is None:
+            return 0
+        nodes = deque()
+        nodes.append(root)
+        maxsum = root.val
+        level = 1
+        maxlevel = 1
+        while nodes:
+            nodecount = 0
+            currsum = 0
+            for n in nodes:
+                nodecount += 1
+                currsum += n.val
+            print(level, currsum)
+            if currsum > maxsum:
+                maxlevel = level
+                maxsum = currsum
+            for _ in range(nodecount):
+                n = nodes.popleft()
+                if n.left is not None:
+                    nodes.append(n.left)
+                if n.right is not None:
+                    nodes.append(n.right)
+            level += 1
+        print(maxsum)
+        return maxlevel
