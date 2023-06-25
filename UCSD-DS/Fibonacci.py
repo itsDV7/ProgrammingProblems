@@ -45,6 +45,60 @@ def fibomod(n, mod):
                         break
                 return pattern[n%len(pattern)]
 
+# Fibo sum using Pisano Period
+def fibosum(n):
+    if n < 2:
+        return n
+    else:
+        res = 0
+        pattern = list()
+        pattern.append(0)
+        pattern.append(1)
+        pattern_sum = 0
+        while True:
+            curr = (pattern[-2] + pattern[-1])%10
+            pattern.append(curr)
+            pattern_sum += curr
+            if pattern[-2] == 0 and pattern[-1] == 1:
+                pattern.pop()
+                pattern.pop()
+                break
+        pattern_len = len(pattern)
+        if n < pattern_len:
+            res = sum(pattern[:n+1])%10
+        else:
+            res = ((pattern_sum * (n//pattern_len)) + sum(pattern[:(n%pattern_len)+1]))%10
+        return res
+
+# Fibo Part Sum using Pisano Period
+def fibopartsum(m, n):
+    if n < 2:
+        return n
+    else:
+        res = 0
+        pattern = list()
+        pattern.append(0)
+        pattern.append(1)
+        pattern_sum = 0
+        while True:
+            curr = (pattern[-2] + pattern[-1])%10
+            pattern.append(curr)
+            pattern_sum += curr
+            if pattern[-2] == 0 and pattern[-1] == 1:
+                pattern.pop()
+                pattern.pop()
+                break
+        pattern_len = len(pattern)
+        if m < pattern_len and n < pattern_len:
+            res = sum(pattern[m:n+1])
+        elif m < pattern_len and n >= pattern_len:
+            res = sum(pattern[m:])
+            res += pattern_sum * ((n//pattern_len)-1) + sum(pattern[:(n%pattern_len)+1])
+        elif m > pattern_len:
+            res = sum(pattern[(m%pattern_len):])
+            res += pattern_sum * ((m//pattern_len) - (n//pattern_len) - 1) + sum(pattern[:(n%pattern_len)+1])
+        return res%10
+
 # Fibo Sq Sum using Pisano Period
 def fibosqsum(n):
     if n < 2:
@@ -71,5 +125,6 @@ def fibosqsum(n):
         if n < pattern_len:
             res = sum(sqs[:n+1])%10
         else:
-            res = ((sqs_sum * pattern_len//n) + sum(sqs[:(n%pattern_len)+1]))%10
+            res = sqs_sum * (n//pattern_len) + sum(sqs[:(n%pattern_len)+1])
+            res %= 10
     return res
