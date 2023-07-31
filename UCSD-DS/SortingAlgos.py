@@ -69,6 +69,27 @@ merge_sort_arr = [a for a in array]
 merge_sort(merge_sort_arr)
 print("Merge Sort -", merge_sort_arr)
 
+# Quick Sort - Select Pivot, Divide, and Sort
+def partition(arr, low, high):
+    pivot = arr[high]
+    i = low - 1
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i+1], arr[high] = arr[high], arr[i+1]
+    return i + 1
+
+def quick_sort(arr, low, high):
+    if low < high:
+        p = partition(arr, low, high)
+        quick_sort(arr, low, p-1)
+        quick_sort(arr, p+1, high)
+        
+quick_sort_arr = [a for a in array]
+quick_sort(quick_sort_arr, 0, len(quick_sort_arr)-1)
+print("Quick Sort -", quick_sort_arr)
 
 
 print("Original Arr -", array)
+
