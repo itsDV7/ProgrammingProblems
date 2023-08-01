@@ -88,8 +88,49 @@ def quick_sort(arr, low, high):
         
 quick_sort_arr = [a for a in array]
 quick_sort(quick_sort_arr, 0, len(quick_sort_arr)-1)
-print("Quick Sort -", quick_sort_arr)
+print("Quick Sort Last Pivot -", quick_sort_arr)
 
+def partition(arr, low, high):
+    pivot = arr[low]
+    i = low
+    for j in range(low + 1, high + 1):
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i], arr[low] = arr[low], arr[i]
+    
+    return i
 
-print("Original Arr -", array)
+def quick_sort(arr, low, high):
+    if low < high:
+        p = partition(arr, low, high)
+        quick_sort(arr, low, p-1)
+        quick_sort(arr, p+1, high)
+
+quick_sort_arr = [a for a in array]
+quick_sort(quick_sort_arr, 0, len(quick_sort_arr)-1)
+print("Quick Sort First Pivot -", quick_sort_arr)
+
+from random import randint
+def partition(arr, low, high):
+    rand = randint(low, high)
+    arr[high], arr[rand] = arr[rand], arr[high]
+    pivot = arr[high]
+    i = low - 1
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+    return i + 1
+
+def quick_sort(arr, low, high):
+    if low < high:
+        p = partition(arr, low, high)
+        quick_sort(arr, low, p - 1)
+        quick_sort(arr, p + 1, high)
+
+quick_sort_arr = [a for a in array]
+quick_sort(quick_sort_arr, 0, len(quick_sort_arr)-1)
+print("Quick Sort Random Pivot -", quick_sort_arr)
 
