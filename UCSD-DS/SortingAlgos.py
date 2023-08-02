@@ -134,3 +134,79 @@ quick_sort_arr = [a for a in array]
 quick_sort(quick_sort_arr, 0, len(quick_sort_arr)-1)
 print("Quick Sort Random Pivot -", quick_sort_arr)
 
+# Heap Sort - Make tree and swap
+def heapify(arr, index):
+    swap_index = index
+    left = 2 * index + 1
+    right = 2 * index + 2
+    if left < len(arr) and arr[left] < arr[swap_index]:
+        swap_index = left
+    if right < len(arr) and arr[right] < arr[swap_index]:
+        swap_index = right
+    if index != swap_index:
+        arr[index], arr[swap_index] = arr[swap_index], arr[index]
+        heapify(arr, swap_index)
+
+def heap_sort(arr):
+    for i in range(len(arr)//2-1, -1, -1):
+        heapify(arr, i)
+    sorted_arr = []
+    for i in range(len(arr)-1):
+        arr[0], arr[-1] = arr[-1], arr[0]
+        sorted_arr.append(arr.pop())
+        heapify(arr, 0)
+    sorted_arr.append(arr.pop())
+    print("Heap Sort Heapify -", sorted_arr)
+
+heap_sort([a for a in array])
+
+# Counting Sort - Assuming range 1 till 10
+def counting_sort(arr):
+    freq = [0]*(max(arr)+1)
+    for a in arr:
+        freq[a] += 1
+    freq_ans = list()
+    for i,f in enumerate(freq):
+        if f:
+            freq_ans.extend([i]*f)
+    print("Counting Sort Freq -", freq_ans)
+    for i in range(len(freq)-1):
+        freq[i+1] += freq[i]
+    sum_ans = [0]*len(arr)
+    for a in arr:
+        sum_ans[freq[a]-1] = a
+        freq[a] -= 1
+    print("Counting Sort CumSum -", sum_ans)
+
+counting_sort([a for a in array])
+
+# Radix Sort - Stable sort to 
+print("Radix Array -", [170, 45, 75, 90, 802, 24, 2, 66])
+
+def counting_sort_digit(arr, place):
+    temp = [a for a in arr]
+    for _ in range(place):
+        temp = [t//10 for t in temp]
+    temp = [t%10 for t in temp]
+    freq = [0]*(max(temp)+1)
+    for t in temp:
+        freq[t] += 1
+    for i in range(len(freq)-1):
+        freq[i+1] += freq[i]
+    sort = [0]*len(temp)
+    for i, t in enumerate(temp[::-1]):
+        sort[freq[t]-1] = arr[len(temp)-1-i]
+        freq[t]-=1
+    return sort
+
+def radix_sort(arr):
+    largest_num = max(arr)
+    num_digits = 0
+    while largest_num:
+        num_digits += 1
+        largest_num //= 10
+    for i in range(num_digits):
+        arr = counting_sort_digit(arr, i)
+    print("Radix Sort -", arr)
+
+radix_sort([170, 45, 75, 90, 802, 24, 2, 66])
